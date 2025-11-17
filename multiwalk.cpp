@@ -37,7 +37,7 @@ int main(int argc, char* argv[]) {
     vector<vector<int>> walkers(numWalkers, vector<int>(2, 0));
 
     ofstream out("randomwalk.csv"); // initialize the output file
-    out << "step, exp_squared_disp"; // step and expected squared displacement columns
+    out << "step,exp_squared_disp"; // step and expected squared displacement columns
 
     // add columns for the walkers
     for (int w = 0; w < numWalkers; w++ ) { // for every walker
@@ -45,6 +45,7 @@ int main(int argc, char* argv[]) {
     }
     out << "\n";
 
+    // loop to add position data to the CSV for all steps and for all walkers
     for (int s = 0; s <= numSteps; s++) {
 
         // compute the expected squared displacement at each step
@@ -59,10 +60,11 @@ int main(int argc, char* argv[]) {
         double expectedSquaredDisplacement = sumSquaredDisplacement / numWalkers; // expected displacement is the ensemble average
 
         // write the row to CSV
-        out << s << "," << expectedSquaredDisplacement; // step, exp. displacement
+        out << s << "," << expectedSquaredDisplacement; // step, expected displacement
         for (const auto& walker:walkers) {
             out << "," << walker[0] << "," << walker[1]; // x and y coordinates
         }
+        out << "\n";
 
         // update the walker's position
         if (s < numSteps) { // do not step if user-defined number of steps is reached
